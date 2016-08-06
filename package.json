@@ -1,0 +1,29 @@
+{
+  "name": "sms-list",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "babel-core": "^6.13.2",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
+    "hapi": "^13.4.1",
+    "hoek": "4.0.2",
+    "if-env": "^1.0.0",
+    "inert": "^4.0.0",
+    "react": "^15.3.0",
+    "react-dom": "^15.3.0",
+    "react-router": "^2.6.1",
+    "vision": "^4.1.0",
+    "webpack": "^1.13.1"
+  },
+  "scripts": {
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:dev": "concurrently \"webpack -d --watch\" \"nodemon server.js\"",
+    "start:prod": "webpack -p && node server.js"
+  },
+  "devDependencies": {
+    "concurrently": "^2.2.0",
+    "nodemon": "^1.10.0"
+  }
+}
