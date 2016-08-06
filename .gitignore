@@ -4,8 +4,8 @@
 node_modules
 
 # builds
-src/client/public/build.js
-src/client/public/build.js.map
+src/client/public/bundle.js
+src/client/public/bundle.js.map
 
 # misc
 .DS_Store
