@@ -1,4 +1,5 @@
 # Run this docker with: sudo docker run -d -p 3000:3000 -v $(pwd):/var/www/app/current 
+# Before you run this file for the first time, make sure you remove node_modules/ folders in your host machine.
 
 FROM ubuntu:14.04.4
 
@@ -6,7 +7,7 @@ FROM ubuntu:14.04.4
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 # Set environment variables
-ENV appDir /var/www/app/current
+ENV appDir /var/www/app
 
 # Run updates and install deps
 RUN apt-get update
@@ -30,18 +31,17 @@ RUN apt-get install -y -q --no-install-recommends \
 RUN wget https://nodejs.org/dist/v4.4.7/node-v4.4.7-linux-x64.tar.xz
 RUN tar -C /usr/local --strip-components 1 -xJf node-v4.4.7-linux-x64.tar.xz
 
-# Add our package.json and install *before* adding our app files
-RUN npm install -g nodemon concurrently
-ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN mkdir -p ${appDir} && cp -a /tmp/node_modules ${appDir}
+RUN npm install -g nodemon concurrently webpack if-env
 
-# Add app files
-WORKDIR ${appDir}
-#ADD . ${appDir}
+# Add our package.json one step above the project and install *before* adding our project.
+# This is a hacky hack to avoid overriding node_modules folder when mounting the project.
+RUN mkdir -p ${appDir}
+ADD package.json ${appDir}/package.json
+RUN cd ${appDir} && npm install
 
-# Restart nginx
-# RUN service nginx restart
+# Prepare app files folder
+RUN mkdir -p ${appDir}/current
+WORKDIR ${appDir}/current
 
 # Expose the port
 EXPOSE 3000
