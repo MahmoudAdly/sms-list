@@ -3,6 +3,10 @@
 # dependencies
 node_modules
 
+# builds
+src/client/public/build.js
+src/client/public/build.js.map
+
 # misc
 .DS_Store
 npm-debug.log
