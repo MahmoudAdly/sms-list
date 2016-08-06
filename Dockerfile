@@ -1,5 +1,4 @@
 # Run this docker with: sudo docker run -d -p 3000:3000 -v $(pwd):/var/www/app/current 
-# Before you run this file for the first time, make sure you remove node_modules/ folders in your host machine.
 
 FROM ubuntu:14.04.4
 
