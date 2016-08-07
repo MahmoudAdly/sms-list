@@ -9,7 +9,11 @@ class Subscribe extends Component {
       number: '',
       subscribeApi: '/api/contacts/add',
       unsubscribeApi: '/api/contacts/remove',
-      loading: false
+      loading: false,
+      flash: {
+        message: '',
+        class: ''
+      }
     };
   }
 
@@ -27,15 +31,19 @@ class Subscribe extends Component {
     setTimeout(function () {
       $.ajax({
         url: self.state.subscribeApi,
+        data: { name: self.state.name, number: self.state.number },
         dataType: 'json',
         method: 'POST',
         success: function(data) {
           this.setState({ 
             loading: false,
             name: '',
-            number: ''
+            number: '',
+            flash: {
+              message: 'contact subscribed',
+              class: 'success'
+            }
           });
-          console.log('contact added');
         }.bind(self),
         error: function(xhr, status, err) {
           this.setState({ loading: false });
@@ -51,15 +59,19 @@ class Subscribe extends Component {
     setTimeout(function () {
       $.ajax({
         url: self.state.unsubscribeApi,
+        data: { number: self.state.number },
         dataType: 'json',
         method: 'POST',
         success: function(data) {
           this.setState({
             loading: false,
             name: '',
-            number: ''
+            number: '',
+            flash: {
+              message: 'contact unsubscribed',
+              class: 'success'
+            }
           });
-          console.log('contact removed');
         }.bind(self),
         error: function(xhr, status, err) {
           this.setState({ loading: false });
@@ -70,15 +82,25 @@ class Subscribe extends Component {
   }
 
   render() {
+    if(this.state.flash.message) {
+      var flashMessage =
+        <div className={'flash ' + this.state.flash.class}>
+          {this.state.flash.message}
+        </div>
+    }
+
     return (
-      <div className='subscribe'><div className='form pure-form pure-form-stacked'>
-        <fieldset>
-          <input type='text' name='number' placeholder='number' value={this.state.number} onChange={this.numberChanged.bind(this)}/>
-          <input type='text' name='name' placeholder='name (optional)' value={this.state.name} onChange={this.nameChanged.bind(this)}/>
-          <button className='subscribe pure-button pure-button-custom pure-button-success' onClick={this.subscribe.bind(this)} disabled={this.state.loading}>Subscribe</button>
-          <button className='unsubscribe pure-button pure-button-custom pure-button-error' onClick={this.unsubscribe.bind(this)} disabled={this.state.loading}>Unsubscribe</button>
-        </fieldset>
-      </div></div>
+      <div className='subscribe'>
+        <div className='form pure-form pure-form-stacked'>
+          {flashMessage}
+          <fieldset>
+            <input type='text' name='number' placeholder='number' value={this.state.number} onChange={this.numberChanged.bind(this)}/>
+            <input type='text' name='name' placeholder='name (optional)' value={this.state.name} onChange={this.nameChanged.bind(this)}/>
+            <button className='subscribe pure-button pure-button-custom pure-button-success' onClick={this.subscribe.bind(this)} disabled={this.state.loading}>Subscribe</button>
+            <button className='unsubscribe pure-button pure-button-custom pure-button-error' onClick={this.unsubscribe.bind(this)} disabled={this.state.loading}>Unsubscribe</button>
+          </fieldset>
+        </div>
+      </div>
     );
   }
 }

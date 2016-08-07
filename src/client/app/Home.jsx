@@ -56,11 +56,15 @@ class Home extends Component {
           <input type='number' name='group-size' min='1' max='50' value={this.state.groupSize} onChange={this.groupSizeChanged.bind(this)}/>
           <div className='groups'>
           {
-            groups.map(function(obj, i){
-              var numbers = obj.join();
+            groups.map(function(group, i){
+              var numbers = [];
+              group.forEach(function(contact) {
+                numbers.push(contact.number);
+              }, this);
+              var numbers = numbers.join();
               return(
                 <div key={i}>
-                  Group {i+1} (size: {obj.length}) <a href={'sms:'+ numbers +'?body=' + self.state.message} className='pure-button pure-button-primary'>send</a>
+                  Group {i+1} (size: {group.length}) <a href={'sms:'+ numbers +'?body=' + self.state.message} className='pure-button pure-button-primary'>create SMS</a>
                 </div>)
             })
           }

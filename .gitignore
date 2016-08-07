@@ -8,5 +8,6 @@ src/client/public/bundle.js
 src/client/public/bundle.js.map
 
 # misc
+contacts.sqlite3
 .DS_Store
 npm-debug.log
