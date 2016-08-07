@@ -2,9 +2,7 @@
 const Hapi = require('hapi');
 const Hoek = require('hoek');
 const Path = require('path');
-var sqlite3 = require('sqlite3').verbose();
-
-var db = new sqlite3.Database('contacts.sqlite3');
+var Contact = require('./src/server/contact');
 
 const server = new Hapi.Server();
 server.connection({ port: 3000 });
@@ -17,55 +15,33 @@ server.register(require('vision'), (err) => {
     method: 'GET',
     path: '/api/contacts',
     handler: function (request, reply) {
-      db.serialize(function() {
-        db.run("CREATE TABLE if not exists contacts (name TEXT, number TEXT)");
-
-        var contacts = [];
-        db.all("SELECT rowid AS id, name, number FROM contacts", function(err, rows) {
-          rows.forEach(function(row) {
-            contacts.push({ name: row.name, number: row.number });
-          });
-          reply({ data: { contacts: contacts }});
-        });
+      Contact.getAllContacts(function(err, contacts) {
+        reply({ data: { contacts: contacts }});
       });
     }
   });
 
   server.route({
     method: 'POST',
-    path: '/api/contacts/add',
+    path: '/api/contacts/subscribe',
     handler: function (request, reply) {
       var name = request.payload.name;
       var number = request.payload.number;
 
-      db.serialize(function() {
-        db.run("CREATE TABLE if not exists contacts (name TEXT, number TEXT)");
-
-        db.run("INSERT INTO contacts(name, number) VALUES (?,?)", name, number, function(err) {
-          if(err) console.log(err);
-
-          // db.close();
-          reply({ data: { contact: { name: name, number: number }}});
-        });
+      Contact.createContact(name, number, function(err, contact) {
+        reply({ data: { contact: contact }});
       });
     }
   });
 
   server.route({
     method: 'POST',
-    path: '/api/contacts/remove',
+    path: '/api/contacts/unsubscribe',
     handler: function (request, reply) {
       var number = request.payload.number;
 
-      db.serialize(function() {
-        db.run("CREATE TABLE if not exists contacts (name TEXT, number TEXT)");
-
-        db.run("DELETE FROM contacts WHERE number=(?)", number, function(err) {
-          if(err) console.log(err);
-
-          // db.close();
-          reply({ data: { contact: { number: number }}});
-        });
+      Contact.deleteContact(number, function(err, number) {
+        reply({ data: { contact: { number: number }}});
       });
     }
   });
