@@ -7,8 +7,8 @@ class Subscribe extends Component {
     this.state = {
       name: '',
       number: '',
-      subscribeApi: '/api/contacts/add',
-      unsubscribeApi: '/api/contacts/remove',
+      subscribeApi: '/api/contacts/subscribe',
+      unsubscribeApi: '/api/contacts/unsubscribe',
       loading: false,
       flash: {
         message: '',
