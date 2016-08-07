@@ -7,11 +7,13 @@ class App extends Component {
   render() {
     return (
       <div>
-        <h1>SMS List</h1>
-        <ul>
-          <li><Link to="/" onlyActiveOnIndex>Home</Link></li>
-          <li><Link to="/subscribe">Subscribe</Link></li>
-        </ul>
+        <div className='header'>
+          <span className='title'><Link to="/">SMS List</Link></span>
+          <span className='links'>
+            <Link to="/" onlyActiveOnIndex>Home</Link>
+            <Link to="/subscribe">Subscribe</Link>
+          </span>
+        </div>
         {this.props.children}
       </div>
     );

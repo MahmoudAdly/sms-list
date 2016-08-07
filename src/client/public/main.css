@@ -1,0 +1,112 @@
+body {
+  color: #333;
+  background: #fff;
+  line-height: 1.6;
+}
+.pure-button-custom {
+  color: white;
+  border-radius: 4px;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+.pure-button-success {
+  background: rgb(28, 184, 65); /* this is a green */
+}
+.pure-button-error {
+  background: rgb(202, 60, 60); /* this is a maroon */
+}
+#app {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.header {
+  margin: 10px 0px;
+  padding: 0 10px;
+  border-bottom: 1px solid #eee;
+}
+.header .title {
+  margin-right: 10px;
+  font-size: larger;
+}
+.header .title a {
+  text-decoration: none;
+  color: inherit;
+}
+.header .links {
+  float: right;
+}
+.header .links a {
+  margin-left: 10px;
+  color: inherit;
+  text-decoration: underline;
+}
+.msg-box {
+  padding: 20px;
+}
+.groups {
+  border-top: 1px solid #eee;
+  padding-top: 20px;
+}
+.groups div {
+  border-left: 5px solid #0078e7;
+  padding-left: 5px;
+  margin: 10px 0;
+}
+.subscribe .form {
+  display: table;
+  margin: 20px auto;
+}
+.subscribe .form .unsubscribe{
+  float: right;
+}
+.loading-lines
+{
+  width:117px;
+  height: 50px;
+  margin: 50px auto;
+}
+
+.loading-lines div
+{
+  height:30px;
+  width:10px;
+  background-color: #005AA2;
+  display:inline-block;
+  margin-right:10px;
+  -webkit-animation: animation5-bar 1s infinite;
+  animation: animation5-bar 1s infinite;
+}
+
+.loading-lines .bar1
+{
+  -webkit-animation-delay: 0.5s;
+  animation-delay: 0.5s;
+}
+.loading-lines .bar2
+{
+  -webkit-animation-delay: 0.6s;
+  animation-delay: 0.6s;
+}
+.loading-lines .bar3
+{
+  -webkit-animation-delay: 0.7s;
+  animation-delay: 0.7s;
+}
+.loading-lines .bar4
+{
+  -webkit-animation-delay: 0.8s;
+  animation-delay: 0.8s;
+}
+.loading-lines .bar5
+{
+  -webkit-animation-delay: 0.9s;
+  animation-delay: 0.9s;
+}
+
+@keyframes animation5-bar
+{
+  30%
+  {
+    transform: scaleY(2);
+  }
+}

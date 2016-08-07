@@ -14,7 +14,23 @@ server.register(require('vision'), (err) => {
     method: 'GET',
     path: '/api/contacts',
     handler: function (request, reply) {
-      reply({});
+      reply({ data: { contacts: ['123', '456', '789', '000'] }});
+    }
+  });
+
+  server.route({
+    method: 'POST',
+    path: '/api/contacts/add',
+    handler: function (request, reply) {
+      reply({ data: { contact: '' }});
+    }
+  });
+
+  server.route({
+    method: 'POST',
+    path: '/api/contacts/remove',
+    handler: function (request, reply) {
+       reply({ data: { contact: '' }});
     }
   });
 });
