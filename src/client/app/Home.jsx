@@ -51,7 +51,7 @@ class Home extends Component {
         <div className='msg-box pure-form'>
           <legend>Send a new SMS</legend>
           Message:<br/>
-          <textarea placeholder='enter your sms message...' onChange={this.messageChanged.bind(this)}></textarea><br/>
+          <textarea className="sms" placeholder='enter your sms message...' onChange={this.messageChanged.bind(this)}></textarea><br/>
           Group size:<br/>
           <input type='number' name='group-size' min='1' max='50' value={this.state.groupSize} onChange={this.groupSizeChanged.bind(this)}/>
           <div className='groups'>
