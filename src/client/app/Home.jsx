@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
-import _ from 'underscore';
 
 class Home extends Component {
   constructor(props) {
@@ -38,10 +37,15 @@ class Home extends Component {
     this.setState({ groupSize: e.target.value });
   }
 
+  toggleContactList(e) {
+    let contactsListId = e.target.getAttribute('data-contacts-list-id');
+    $(`#${contactsListId}`).toggleClass('hidden');
+  }
+
   render() {
     var self = this;
     if(self.state.initialized) {
-      var groups = _.map(self.state.contacts, function(item, index){
+      var groups = self.state.contacts.map(function(item, index){
         return index % self.state.groupSize === 0 ? self.state.contacts.slice(index, index + self.state.groupSize) : null; 
       }).filter(function(item){
         return item; 
@@ -54,15 +58,35 @@ class Home extends Component {
       } else {
         groupsDiv = (
           groups.map(function(group, i){
-            var numbers = [];
-            group.forEach(function(contact) {
+            let numbers = [];
+
+            group.map(function(contact, i) {
               numbers.push(contact.number);
             }, this);
-            var numbers = numbers.join();
+
+            let numbersString = numbers.join();
+            let smsUrl = 'sms:'+ numbersString +'?body=' + self.state.message;
+
+            let groupsContactsList;
+            groupsContactsList = (
+              <ul>
+              {
+                group.map(function(contact, i) {
+                  return(<li key={i}>{contact.number} {contact.name.length? `(${contact.name})` : null}</li>)
+                })
+              }
+              </ul>
+            )
+
+            let contactsListId = `contactsList-${i}`;
+
             return(
-              <div key={i}>
-                Group {i+1} (size: {group.length}) <a href={'sms:'+ numbers +'?body=' + self.state.message} className='pure-button pure-button-primary'>create SMS</a>
-              </div>)
+              <div key={i} className='groupDiv'>
+                Group {i+1} (size: {group.length}) <a href={smsUrl} className='pure-button pure-button-primary'>create SMS</a>
+                <span className='show-contacts' data-contacts-list-id={contactsListId} onClick={self.toggleContactList.bind(self)}>toggle list</span>
+                <div className='groupContactsList collapse hidden' id={contactsListId}>{groupsContactsList}</div>
+              </div>
+            )
           })
         )
       }
