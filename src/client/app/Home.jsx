@@ -47,6 +47,26 @@ class Home extends Component {
         return item; 
       });
 
+      let groupsDiv;
+      
+      if(groups.length == 0) {
+        groupsDiv = (<div>No contacts yet</div>)
+      } else {
+        groupsDiv = (
+          groups.map(function(group, i){
+            var numbers = [];
+            group.forEach(function(contact) {
+              numbers.push(contact.number);
+            }, this);
+            var numbers = numbers.join();
+            return(
+              <div key={i}>
+                Group {i+1} (size: {group.length}) <a href={'sms:'+ numbers +'?body=' + self.state.message} className='pure-button pure-button-primary'>create SMS</a>
+              </div>)
+          })
+        )
+      }
+
       var content = 
         <div className='msg-box pure-form'>
           <legend>Send a new SMS</legend>
@@ -55,19 +75,8 @@ class Home extends Component {
           Group size:<br/>
           <input type='number' name='group-size' min='1' max='50' value={this.state.groupSize} onChange={this.groupSizeChanged.bind(this)}/>
           <div className='groups'>
-          {
-            groups.map(function(group, i){
-              var numbers = [];
-              group.forEach(function(contact) {
-                numbers.push(contact.number);
-              }, this);
-              var numbers = numbers.join();
-              return(
-                <div key={i}>
-                  Group {i+1} (size: {group.length}) <a href={'sms:'+ numbers +'?body=' + self.state.message} className='pure-button pure-button-primary'>create SMS</a>
-                </div>)
-            })
-          }
+            <p>SMS groups:</p>
+            {groupsDiv}
           </div>
         </div>
     } else {
@@ -80,9 +89,8 @@ class Home extends Component {
           <div className='bar bar5'></div>
         </div>
     }
-    return (
-      content
-    );
+
+    return (content);
   }
 }
 
