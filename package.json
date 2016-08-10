@@ -22,7 +22,7 @@
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
     "start:dev": "concurrently \"webpack -d --watch\" \"nodemon server.js\"",
-    "start:prod": "webpack -p && node server.js"
+    "start:prod": "NODE_ENV='production' webpack -p && node server.js"
   },
   "devDependencies": {
     "concurrently": "^2.2.0",
